@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.7.0/flexslider.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.7.0/jquery.flexslider.js"></script>
+<div class="price__sale">
+  <dt>
+    <span class="visually-hidden visually-hidden--inline">{{ 'products.product.sale_price' | t }}</span>
+  </dt>
+  <dd>
+    <span class="price-item price-item--sale" data-sale-price>
+      {{ money_price }}
+    </span>
+    <span class="price-item__label" aria-hidden="true">{{ 'products.product.on_sale' | t }}</span>
+  </dd>
+</div>
+{% for product in collections['home-single'].products %}
+<p>{{ product.title }}</p>
+  {% endfor %}
+<div id="slider" class="flexslider">
+  <ul class="slides">
+{% for product in collections['home-single'].products %}
+  {% for image in product.images %}
+  <li><img src="{{ image.src | product_img_url: "large" }}"></li>
+  {% endfor %}
+{% endfor %}
+</ul>
+</div>
+<div id="carousel" class="flexslider">
+  <ul class="slides">
+{% for product in collections['home-single'].products %}
+  {% for image in product.images %}
+  <li><img src="{{ image.src | product_img_url: "large" }}"></li>
+  {% endfor %}
+{% endfor %}
+</ul>
+</div>
+
+{% schema %}
+  {
+    "name": "Product",
+    "settings": []
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+  $(window).on("load",function(e) {
+  // The slider being synced must be initialized first
+  $('#carousel').flexslider({
+    animation: "slide",
+    controlNav: false,
+    animationLoop: false,
+    slideshow: false,
+    itemWidth: 210,
+    itemMargin: 5,
+    asNavFor: '#slider'
+  });
+ 
+  $('#slider').flexslider({
+    animation: "slide",
+    controlNav: false,
+    animationLoop: false,
+    slideshow: false,
+    sync: "#carousel"
+  });
+});
+{% endjavascript %}
